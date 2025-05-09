@@ -14,11 +14,10 @@ import ShoppingAccount from "@/pages/shopping-view/account.jsx";
 import ShoppingCheckout from "@/pages/shopping-view/checkout.jsx";
 import CheckAuth from "@/components/common/check-auth.jsx";
 import UnauthPage from "@/pages/unauth-page/unauth.jsx";
+import {useSelector}  from "react-redux";
 
 function App() {
-  const isAuthenticated = false;
-  const user =null
-
+  const {isAuthenticated, isLoading, user}=useSelector(state=>state.auth);
 
   return (
 
