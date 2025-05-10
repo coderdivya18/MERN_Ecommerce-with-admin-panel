@@ -20,13 +20,28 @@ export const loginUser=createAsyncThunk("/auth/login",
     return response.data;
     })
 
+//Check-auth (auth middleware)
+export const checkAuth=createAsyncThunk("/auth/checkAuth",
+    async(formData)=>{
+    const response=await axios.get('http://localhost:5000/api/auth/check-auth',
+        {
+             withCredentials: true,
+            headers:{
+                 'Cache-Control': 'no-cache, no-store must-revalidate proxy-revalidate',
+
+            }
+        })
+        return response.data;
+
+    })
+
 
  //Creating auth slice with all the reducers
 const authSlice = createSlice(  {
     name: 'auth',
     initialState: {
         isAuthenticated: false,
-        isLoading: false,
+        isLoading:true,
         user: null,
     },
     reducers: {
@@ -61,7 +76,23 @@ const authSlice = createSlice(  {
             state.isLoading = false;
             state.user = null;
             state.isAuthenticated = false;
+
+        }).addCase(checkAuth.pending, (state, action) => {
+            state.isLoading = true;
+
+
+        }).addCase(checkAuth.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.user = action.payload?.success ? action.payload?.user :null;
+            state.isAuthenticated = action.payload?.success ;
+
+        }).addCase(checkAuth.rejected, (state, action) => {
+            state.isLoading = false;
+            state.user = null;
+            state.isAuthenticated = false;
+
         })
+
 
     }
     }
