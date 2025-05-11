@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { Fragment } from "react";
 
 const AdminProducts = () => {
-    return (
-        <div>
-            admin products
-        </div>
-    );
+  return <Fragment></Fragment>;
 };
 
 export default AdminProducts;
